@@ -1,6 +1,7 @@
 package controllers
 
 import javax.inject.Inject
+import play.api.libs.json._
 import play.api.mvc._
 
 class HelloController @Inject() (cc: ControllerComponents)
@@ -20,6 +21,19 @@ class HelloController @Inject() (cc: ControllerComponents)
 //  def hello(): Action[AnyContent] = Action(new Status(200))
 
   // ステータスコード200は既にOkという定数オブジェクトがResults.scalaに定義されている
-  def hello(): Action[AnyContent] = Action(Ok)
+//  def hello(): Action[AnyContent] = Action(Ok)
+
+  // 文字列を返却
+  def hello(): Action[AnyContent] = {
+    val result:Result = Ok("Hello World")
+    Action(result.as("text/plain"))
+  }
+
+  def helloJson(): Action[AnyContent] = Action {
+    val json: JsValue =
+      Json.obj("hello" -> "world", "language" -> "scala")
+
+    Ok(json)
+  }
 
 }
